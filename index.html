@@ -262,39 +262,36 @@
 </section>
 
 
-<!-- ══ DEMO VIDEOS ════════════════════════════════════════ -->
+<!-- ══ VIDEOS ══════════════════════════════════════════════ -->
 <section class="section" style="padding-top:10px; padding-bottom:40px;">
   <div class="container is-max-desktop">
-    <div class="has-text-centered" style="margin-bottom:22px;">
-      <span class="section-tag">Demo Videos</span>
-    </div>
     <div class="video-grid">
 
       <div>
         <div class="video-card">
           <video autoplay muted loop playsinline controls>
+            <source src="./static/videos/STA_san_anderias_gaze.webm" type="video/webm">
             <source src="./static/videos/STA_san_anderias_gaze.mp4" type="video/mp4">
           </video>
         </div>
-        <p class="video-caption">GTA on San Andreas — gaze target prediction in a complex multi-person scene</p>
       </div>
 
       <div>
         <div class="video-card">
           <video autoplay muted loop playsinline controls>
+            <source src="./static/videos/GTA_V_gaze.webm" type="video/webm">
             <source src="./static/videos/GTA_V_gaze.mp4" type="video/mp4">
           </video>
         </div>
-        <p class="video-caption">GTA on GTA-V — attended object identification and grounding</p>
       </div>
 
       <div>
         <div class="video-card">
           <video autoplay muted loop playsinline controls>
+            <source src="./static/videos/GTA_IV_gaze.webm" type="video/webm">
             <source src="./static/videos/GTA_IV_gaze.mp4" type="video/mp4">
           </video>
         </div>
-        <p class="video-caption">GTA on GTA-IV — open-vocabulary reasoning without predefined labels</p>
       </div>
 
     </div>
@@ -308,8 +305,7 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <span class="section-tag">Abstract</span>
-        <h2 class="title is-3" style="margin-top:8px;">Abstract</h2>
+        <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified" style="font-size:1.02rem; line-height:1.8;">
           <p>
             Understanding human attention is fundamental for scene interpretation, yet existing
@@ -380,7 +376,7 @@
       <span class="section-tag">Results</span>
       <h2 class="title is-3" style="margin-top:8px;">State-of-the-Art Comparison</h2>
       <p style="color:#555; max-width:640px; margin:10px auto 0; font-size:0.97rem;">
-        GTA outperforms all prior methods on both benchmarks with <strong>zero learnable parameters</strong>.
+        GTA outperforms prior methods on both benchmarks with <strong>zero learnable parameters</strong>.
       </p>
     </div>
 
@@ -420,7 +416,7 @@
       <h2 class="title is-3" style="margin-top:8px;">Beyond Predefined Labels</h2>
       <p style="color:#555; max-width:660px; margin:10px auto 0; font-size:0.97rem;">
         Unlike prior methods constrained to fixed object vocabularies, GTA can describe
-        attended objects in free-form natural language — even when no predefined labels exist.
+        attended objects without vocabulary constraints.
       </p>
     </div>
     <figure>
@@ -446,11 +442,11 @@
     <div class="qual-grid">
 
       <div class="qual-card">
-        <img src="./static/images/msem2-1.png" alt="Semantic predictions">
-        <p class="qual-title">Richer Semantic Predictions</p>
+        <img src="./static/images/vocab_free-1.png" alt="Vocabulary-free predictions">
+        <p class="qual-title">Vocabulary-Free Flexibility</p>
         <p class="qual-desc">
-          GTA produces detailed, context-aware descriptions of attended objects,
-          going beyond single-word category labels.
+          Without any vocabulary constraints, GTA generates expressive open-ended
+          predictions that adapt naturally to any scene.
         </p>
       </div>
 
@@ -464,11 +460,11 @@
       </div>
 
       <div class="qual-card">
-        <img src="./static/images/vocab_free-1.png" alt="Vocabulary-free predictions">
-        <p class="qual-title">Vocabulary-Free Flexibility</p>
+        <img src="./static/images/msem2-1.png" alt="Semantic predictions">
+        <p class="qual-title">Richer Semantic Predictions</p>
         <p class="qual-desc">
-          Without any vocabulary constraints, GTA generates expressive open-ended
-          predictions that adapt naturally to any scene.
+          GTA produces detailed, context-aware descriptions of attended objects,
+          going beyond single-word category labels.
         </p>
       </div>
 
