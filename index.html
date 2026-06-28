@@ -212,24 +212,34 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
 
+          <div style="margin-bottom:14px;">
+            <span class="venue-badge">ECCV 2026</span>
+          </div>
+
           <h1 class="title is-2 publication-title">
             From Gaze to Meaning: A Training-Free<br>
             AI Agent for Unified Grounding and Explanation
           </h1>
 
-          <div class="is-size-5 publication-authors" style="margin-top:16px; line-height:2;">
-            <span class="author-block">Shayan Nasiriboukani<span class="corresponding-star">✉</span>,&nbsp;</span>
-            <span class="author-block">Sara Atito,&nbsp;</span>
-            <span class="author-block">Mohammad Nezamipour,&nbsp;</span>
-            <span class="author-block">Muhammad Awais</span>
+          <div class="is-size-5 publication-authors" style="margin-top:18px; line-height:2.2;">
+            <span class="author-block">
+              <a href="mailto:s.nasiriboukani@surrey.ac.uk">Shayan Nasiriboukani</a><sup>1*</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="mailto:sara.atito@surrey.ac.uk">Sara Atito</a><sup>1,2</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="mailto:monezamipoor@gmail.com">Mohammad Nezamipour</a><sup>1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="mailto:muhammad.awais@surrey.ac.uk">Muhammad Awais</a><sup>1,2</sup>
+            </span>
           </div>
 
-          <div class="is-size-6" style="color:#888; margin-top:4px;">
-            <span class="corresponding-star">✉</span> Corresponding author &nbsp;·&nbsp; University of Surrey
-          </div>
-
-          <div style="margin-top:12px;">
-            <span class="venue-badge">ECCV 2026</span>
+          <div class="is-size-6" style="margin-top:10px; line-height:1.9; color:#444;">
+            <div><sup>1</sup>Centre for Vision, Speech and Signal Processing, University of Surrey, UK</div>
+            <div><sup>2</sup>Institute for People-Centered AI, University of Surrey, UK</div>
+            <div style="color:#888; margin-top:4px;"><sup>*</sup> Corresponding author</div>
           </div>
 
           <div class="column has-text-centered" style="margin-top:20px;">
@@ -315,16 +325,19 @@
           </p>
           <p>
             To the best of our knowledge, this work introduces the first training-free
-            <strong>Gaze Target Agent (GTA)</strong> for gaze-guided reasoning across tasks such
-            as gaze target prediction, attention localization, and object identification. This is
-            achieved by leveraging pretrained vision–language models, augmenting them with
-            visually guided prompts, and employing a memory-based retrieval strategy for
-            high-uncertainty samples — all without additional training.
+            <strong>G</strong>aze <strong>T</strong>arget <strong>A</strong>gent (GTA)
+            for gaze-guided reasoning across tasks such as gaze target prediction, attention
+            localization, and object identification.
+            This is achieved by leveraging pretrained vision language models, augmenting them
+            with visually guided prompts, and employing a memory-based retrieval strategy for
+            high-uncertainty samples to improve performance without additional training.
           </p>
           <p>
-            Our method achieves state-of-the-art performance on the <em>GazeFollow</em> and
-            <em>GazeHOI</em> benchmarks, provides detailed semantic predictions, and remains
-            flexible without vocabulary constraints.
+            We evaluate our approach using both quantitative metrics and qualitative results.
+            Quantitatively, our method achieves state of the art performance on the GazeFollow
+            and GazeHOI benchmarks. Qualitatively, our agent provides detailed semantic
+            predictions, predicts the correct targets even when ground truth labels are wrong,
+            and remains flexible without vocabulary constraints.
           </p>
         </div>
       </div>
@@ -388,7 +401,7 @@
       </figure>
       <p class="result-caption">
         <strong>Table 1.</strong> GTA achieves the best Acc@1, Acc@3, and MultiAcc@1 on GazeFollow
-        while using 0 learnable parameters — outperforming all supervised methods.
+        while using 0 learnable parameters.
       </p>
     </div>
 
@@ -399,8 +412,9 @@
         <img src="./static/images/GazeHOI_results.png" alt="GazeHOI results" class="result-img">
       </figure>
       <p class="result-caption">
-        <strong>Table 2.</strong> GTA achieves the highest Acc@1, Acc@3, AP@50, and mIoU on GazeHOI,
-        further demonstrating superior spatial grounding alongside recognition accuracy.
+        <strong>Table 2.</strong> GTA achieves the highest Acc@1, Acc@3, AP@50, and mIoU on GazeHOI.
+        We also evaluate grounding quality on this benchmark, measuring how well the predicted
+        attention regions align with the actual object locations.
       </p>
     </div>
   </div>
