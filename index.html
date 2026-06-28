@@ -275,36 +275,33 @@
 <!-- ══ VIDEOS ══════════════════════════════════════════════ -->
 <section class="section" style="padding-top:10px; padding-bottom:40px;">
   <div class="container is-max-desktop">
-    <div class="video-grid">
 
-      <div>
-        <div class="video-card">
-          <video autoplay muted loop playsinline controls>
-            <source src="./static/videos/STA_san_anderias_gaze.webm" type="video/webm">
-            <source src="./static/videos/STA_san_anderias_gaze.mp4" type="video/mp4">
-          </video>
-        </div>
+    <!-- Row 1: portrait video centred -->
+    <div style="display:flex; justify-content:center; margin-bottom:18px;">
+      <div class="video-card" style="width:40%;">
+        <video autoplay muted loop playsinline controls style="width:100%; display:block;">
+          <source src="./static/videos/STA_san_anderias_gaze.webm" type="video/webm">
+          <source src="./static/videos/STA_san_anderias_gaze.mp4" type="video/mp4">
+        </video>
       </div>
-
-      <div>
-        <div class="video-card">
-          <video autoplay muted loop playsinline controls>
-            <source src="./static/videos/GTA_V_gaze.webm" type="video/webm">
-            <source src="./static/videos/GTA_V_gaze.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div>
-        <div class="video-card">
-          <video autoplay muted loop playsinline controls>
-            <source src="./static/videos/GTA_IV_gaze.webm" type="video/webm">
-            <source src="./static/videos/GTA_IV_gaze.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Row 2: two landscape videos side by side -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+      <div class="video-card">
+        <video autoplay muted loop playsinline controls style="width:100%; display:block;">
+          <source src="./static/videos/GTA_V_gaze.webm" type="video/webm">
+          <source src="./static/videos/GTA_V_gaze.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline controls style="width:100%; display:block;">
+          <source src="./static/videos/GTA_IV_gaze.webm" type="video/webm">
+          <source src="./static/videos/GTA_IV_gaze.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
   </div>
 </section>
 
