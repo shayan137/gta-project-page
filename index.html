@@ -78,8 +78,8 @@
       background: #2a6db5;
       color: #fff;
       border-radius: 6px;
-      padding: 3px 16px;
-      font-size: 0.9rem;
+      padding: 5px 20px;
+      font-size: 1.1rem;
       font-weight: 700;
       margin-top: 8px;
       letter-spacing: 0.06em;
@@ -188,7 +188,8 @@
 
     @media (max-width: 768px) {
       .video-grid, .qual-grid { grid-template-columns: 1fr; }
-      .project-tabs a { padding: 9px 24px; font-size: 0.88rem; }
+      .project-tabs a { padding: 9px 18px; font-size: 0.82rem; }
+      .project-tabs { max-width: 100%; overflow-x: auto; }
     }
   </style>
 </head>
@@ -199,6 +200,10 @@
   <span class="switcher-label">Our Projects</span>
   <div class="project-tabs">
     <a class="active" href="#">GTA</a>
+    <a href="#method">Method</a>
+    <a href="#results">Results</a>
+    <a href="#examples">Examples</a>
+    <a href="#BibTeX">Citation</a>
     <div class="tab-divider"></div>
     <a href="https://link.springer.com/chapter/10.1007/978-3-032-31452-9_2" target="_blank" rel="noopener">GGVL</a>
   </div>
@@ -345,7 +350,7 @@
 <div class="section-divider"></div>
 
 <!-- ══ METHOD (BRIEF) ═════════════════════════════════════ -->
-<section class="section" style="padding-top:50px; padding-bottom:50px;">
+<section class="section" id="method" style="padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:28px;">
       <span class="section-tag">Method</span>
@@ -380,7 +385,7 @@
 <div class="section-divider"></div>
 
 <!-- ══ QUANTITATIVE RESULTS ═══════════════════════════════ -->
-<section class="section" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
+<section class="section" id="results" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:30px;">
       <span class="section-tag">Experiments</span>
@@ -443,7 +448,7 @@
 <div class="section-divider"></div>
 
 <!-- ══ QUALITATIVE RESULTS ════════════════════════════════ -->
-<section class="section" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
+<section class="section" id="examples" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:32px;">
       <span class="section-tag">Qualitative Evaluation</span>
