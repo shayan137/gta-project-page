@@ -36,38 +36,74 @@
       margin-bottom: 8px;
       display: block;
     }
-    .project-tabs {
+    .project-boxes {
       display: inline-flex;
-      border-radius: 32px;
-      overflow: hidden;
-      border: 2px solid #4a6fa5;
+      gap: 14px;
+      align-items: flex-start;
     }
-    .project-tabs a {
+    .project-box {
       display: inline-block;
       padding: 10px 40px;
+      border-radius: 32px;
+      border: 2px solid #4a6fa5;
       font-family: 'Google Sans', sans-serif;
       font-size: 0.95rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       text-decoration: none;
+      color: #c0d0ec;
+      background: transparent;
+      cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
-    .project-tabs a.active {
-      background: #4a6fa5;
-      color: #fff;
-      cursor: default;
-    }
-    .project-tabs a:not(.active) {
-      background: transparent;
-      color: #c0d0ec;
-    }
-    .project-tabs a:not(.active):hover {
+    a.project-box:hover {
       background: rgba(74,111,165,0.3);
       color: #fff;
     }
-    .project-tabs .tab-divider {
-      width: 2px;
+    details.project-box {
+      position: relative;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+    details.project-box summary {
+      list-style: none;
+      padding: 10px 40px;
+      border-radius: 32px;
+      border: 2px solid #4a6fa5;
       background: #4a6fa5;
+      color: #fff;
+      cursor: pointer;
+    }
+    details.project-box summary::-webkit-details-marker { display: none; }
+    details.project-box summary::after { content: ' \25BE'; font-size: 0.7em; margin-left: 4px; }
+    details.project-box[open] summary::after { content: ' \25B4'; }
+    .accordion-links {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #20263a;
+      border: 1px solid #4a6fa5;
+      border-radius: 14px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      min-width: 160px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      z-index: 50;
+    }
+    .accordion-links a {
+      padding: 8px 14px;
+      border-radius: 8px;
+      color: #c0d0ec;
+      text-decoration: none;
+      font-size: 0.88rem;
+      text-align: center;
+    }
+    .accordion-links a:hover {
+      background: rgba(74,111,165,0.3);
+      color: #fff;
     }
 
     /* ── Hero ── */
@@ -131,13 +167,7 @@
       font-style: italic;
     }
 
-    /* ── Qualitative grid ── */
-    .qual-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-      align-items: start;
-    }
+    /* ── Qualitative carousel ── */
     .qual-card { text-align: center; }
     .qual-card img {
       width: 100%;
@@ -186,10 +216,83 @@
       margin: 0;
     }
 
+    /* ── Table / qualitative carousels ── */
+    .table-slide, .qual-slide { display: none; }
+    .table-slide.active { display: block; }
+    .qual-slide.active { display: flex; justify-content: center; }
+    .qual-slide .qual-card { max-width: 520px; width: 100%; }
+    .table-slide-title {
+      text-align: center;
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1a3055;
+      margin-bottom: 14px;
+    }
+    .lt-table-wrap {
+      overflow-x: auto;
+      margin: 0 auto;
+      max-width: 760px;
+    }
+    .lt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .lt-table th, .lt-table td {
+      padding: 7px 10px;
+      text-align: center;
+      border-bottom: 1px solid #e6ecf5;
+      white-space: nowrap;
+    }
+    .lt-table th {
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 700;
+      border-bottom: 2px solid #2a6db5;
+    }
+    .lt-table td:first-child, .lt-table th:first-child {
+      text-align: left;
+      white-space: normal;
+    }
+    .lt-table tbody tr.row-gray td { background: #f4f6f9; }
+    .lt-table tbody tr.row-highlight td { background: #eaf1fb; }
+    .lt-table tbody tr.group-row td { background: #dbe6f2; font-weight: 700; text-align: left; }
+    .lt-table tbody tr.rule-above td { border-top: 1.5px solid #cddbea; }
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 20px;
+    }
+    .carousel-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #d0dff5;
+      background: #fff;
+      color: #2a6db5;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .carousel-btn:hover { background: #2a6db5; color: #fff; }
+    .carousel-counter {
+      font-size: 0.85rem;
+      color: #666;
+      min-width: 52px;
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
-      .video-grid, .qual-grid { grid-template-columns: 1fr; }
-      .project-tabs a { padding: 9px 18px; font-size: 0.82rem; }
-      .project-tabs { max-width: 100%; overflow-x: auto; }
+      .video-grid { grid-template-columns: 1fr; }
+      .project-box, details.project-box summary { padding: 9px 24px; font-size: 0.88rem; }
+      .lt-table { font-size: 0.74rem; }
     }
   </style>
 </head>
@@ -198,14 +301,17 @@
 <!-- ══ PROJECT SWITCHER ════════════════════════════════════ -->
 <div class="project-switcher">
   <span class="switcher-label">Our Projects</span>
-  <div class="project-tabs">
-    <a class="active" href="#">GTA</a>
-    <a href="#method">Method</a>
-    <a href="#results">Results</a>
-    <a href="#examples">Examples</a>
-    <a href="#BibTeX">Citation</a>
-    <div class="tab-divider"></div>
-    <a href="https://link.springer.com/chapter/10.1007/978-3-032-31452-9_2" target="_blank" rel="noopener">GGVL</a>
+  <div class="project-boxes">
+    <details class="project-box">
+      <summary>GTA</summary>
+      <div class="accordion-links">
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#examples">Examples</a>
+        <a href="#BibTeX">Citation</a>
+      </div>
+    </details>
+    <a class="project-box" href="https://link.springer.com/chapter/10.1007/978-3-032-31452-9_2" target="_blank" rel="noopener">GGVL</a>
   </div>
 </div>
 
@@ -395,29 +501,227 @@
       </p>
     </div>
 
-    <!-- GazeFollow -->
-    <div style="margin-bottom:42px;">
-      <h3 class="title is-4 has-text-centered" style="margin-bottom:16px;">GazeFollow Benchmark</h3>
-      <figure>
-        <img src="./static/images/GazeFollow_results.png" alt="GazeFollow results" class="result-img">
-      </figure>
-      <p class="result-caption">
-        <strong>Table 1.</strong> GTA achieves the best Acc@1, Acc@3, and MultiAcc@1 on GazeFollow
-        while using 0 learnable parameters.
-      </p>
-    </div>
+    <div class="table-carousel">
 
-    <!-- GazeHOI -->
-    <div>
-      <h3 class="title is-4 has-text-centered" style="margin-bottom:16px;">GazeHOI Benchmark</h3>
-      <figure>
-        <img src="./static/images/GazeHOI_results.png" alt="GazeHOI results" class="result-img">
-      </figure>
-      <p class="result-caption">
-        <strong>Table 2.</strong> GTA achieves the highest Acc@1, Acc@3, AP@50, and mIoU on GazeHOI.
-        We also evaluate grounding quality on this benchmark, measuring how well the predicted
-        attention regions align with the actual object locations.
-      </p>
+      <div class="table-slide active" data-index="0">
+        <h4 class="table-slide-title">GazeFollow — Post-Camera-Ready Evaluation</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead>
+              <tr><th>Method</th><th>Params</th><th>Input</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-gray"><td>Tafasca et al.</td><td>116M</td><td>I+V</td><td>0.447</td><td>0.642</td><td><u>0.516</u></td></tr>
+              <tr class="rule-above"><td>Qwen3<sub>[2B (GGVL)]</sub></td><td>0</td><td>I</td><td><u>0.450</u></td><td><u>0.684</u></td><td>0.506</td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[2B (GTA)]</sub></td><td>0</td><td>I</td><td><strong>0.499</strong></td><td><strong>0.761</strong></td><td><strong>0.561</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 1.</strong> GazeFollow. Params denotes the number of learnable parameters.
+          This evaluation was carried out after the ECCV camera-ready deadline: we found that giving
+          the model only the <em>labels</em> of retrieved examples — not the retrieved images themselves —
+          gives better results.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="1">
+        <h4 class="table-slide-title">GazeHOI — Post-Camera-Ready Evaluation</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead>
+              <tr><th>Method</th><th>GazeAcc ↑</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>AP@50 ↑</th><th>mIoU ↑</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-gray"><td>Tafasca et al.<sup>†</sup></td><td>0.652</td><td>0.306</td><td>0.463</td><td>--</td><td>--</td></tr>
+              <tr class="row-gray"><td>Tafasca et al.</td><td>0.723</td><td>0.583</td><td>0.706</td><td>--</td><td>--</td></tr>
+              <tr class="rule-above"><td>Qwen3<sub>[2B (GGVL)]</sub></td><td><strong>0.731</strong></td><td><u>0.517</u></td><td><u>0.721</u></td><td><strong>0.192</strong></td><td><strong>0.408</strong></td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[2B (GTA)]</sub></td><td><strong>0.731</strong></td><td><strong>0.544</strong></td><td><strong>0.758</strong></td><td><strong>0.192</strong></td><td><strong>0.408</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 2.</strong> GazeHOI. The † symbol indicates the previous state-of-the-art
+          training-free result. This evaluation was carried out after the ECCV camera-ready deadline:
+          we found that giving the model only the <em>labels</em> of retrieved examples — not the
+          retrieved images themselves — gives better results.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="2">
+        <h4 class="table-slide-title">GazeFollow — Camera-Ready Result</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead>
+              <tr><th>Method</th><th>Params</th><th>Input</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-gray"><td>Tafasca et al.</td><td>116M</td><td>I+V</td><td>0.447</td><td>0.642</td><td><u>0.516</u></td></tr>
+              <tr class="rule-above"><td>Qwen3<sub>[2B (GGVL)]</sub></td><td>0</td><td>I</td><td><u>0.450</u></td><td><u>0.684</u></td><td>0.506</td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[2B (GTA)]</sub></td><td>0</td><td>I</td><td><strong>0.493</strong></td><td><strong>0.728</strong></td><td><strong>0.558</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 3.</strong> GazeFollow. Params denotes the number of learnable parameters.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="3">
+        <h4 class="table-slide-title">GazeHOI — Camera-Ready Result</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead>
+              <tr><th>Method</th><th>GazeAcc ↑</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>AP@50 ↑</th><th>mIoU ↑</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-gray"><td>Tafasca et al.<sup>†</sup></td><td>0.652</td><td>0.306</td><td>0.463</td><td>--</td><td>--</td></tr>
+              <tr class="row-gray"><td>Tafasca et al.</td><td>0.723</td><td>0.583</td><td>0.706</td><td>--</td><td>--</td></tr>
+              <tr class="rule-above"><td>Qwen3<sub>[2B (GGVL)]</sub></td><td><strong>0.731</strong></td><td><u>0.517</u></td><td><u>0.721</u></td><td><strong>0.192</strong></td><td><strong>0.408</strong></td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[2B (GTA)]</sub></td><td><strong>0.731</strong></td><td><strong>0.545</strong></td><td><strong>0.745</strong></td><td><strong>0.192</strong></td><td><strong>0.408</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 4.</strong> GazeHOI. The † symbol indicates the previous state-of-the-art
+          training-free result.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="4">
+        <h4 class="table-slide-title">Ablation Across VLM Backbones</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="2">GazeHOI</th>
+                <th colspan="3">GazeFollow</th>
+              </tr>
+              <tr>
+                <th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="6">Public</td></tr>
+              <tr><td>Qwen3<sub>[2b (GGVL)]</sub></td><td>0.517</td><td>0.721</td><td>0.450</td><td>0.684</td><td>0.506</td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[2b (GTA)]</sub></td><td><strong>0.545</strong></td><td><strong>0.745</strong></td><td><strong>0.488</strong></td><td><strong>0.717</strong></td><td><strong>0.550</strong></td></tr>
+              <tr><td>Llava 1.5<sub>[4b (GGVL)]</sub></td><td>0.528</td><td>0.691</td><td>0.380</td><td>0.630</td><td>0.437</td></tr>
+              <tr><td>Llava 1.5<sub>[4b (GTA)]</sub></td><td><strong>0.572</strong></td><td>0.750</td><td>0.466</td><td>0.700</td><td>0.535</td></tr>
+              <tr><td>Qwen3<sub>[4b (GGVL)]</sub></td><td>0.516</td><td>0.742</td><td>0.543</td><td>0.722</td><td>0.613</td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[4b (GTA)]</sub></td><td><u>0.564</u></td><td><strong>0.758</strong></td><td><strong>0.559</strong></td><td><strong>0.769</strong></td><td><strong>0.636</strong></td></tr>
+              <tr><td>Llava<sub>[8b (GGVL)]</sub></td><td>0.548</td><td>0.718</td><td>0.409</td><td>0.676</td><td>0.468</td></tr>
+              <tr><td>Llava<sub>[8b (GTA)]</sub></td><td>0.557</td><td>0.771</td><td>0.484</td><td>0.726</td><td>0.553</td></tr>
+              <tr><td>Qwen3<sub>[8b (GGVL)]</sub></td><td>0.533</td><td>0.742</td><td>0.584</td><td>0.755</td><td>0.650</td></tr>
+              <tr class="row-highlight"><td><strong>Qwen3</strong><sub>[8b (GTA)]</sub></td><td><strong>0.602</strong></td><td><strong>0.772</strong></td><td><strong>0.602</strong></td><td><strong>0.778</strong></td><td><strong>0.668</strong></td></tr>
+              <tr class="group-row"><td colspan="6">Private</td></tr>
+              <tr><td>Gemini 2.5 Flash<sub>[GGVL]</sub></td><td>0.617</td><td>0.741</td><td>0.594</td><td>0.773</td><td>0.655</td></tr>
+              <tr class="row-highlight"><td><strong>Gemini 2.5 Flash</strong><sub>[GTA]</sub></td><td><strong>0.621</strong></td><td><strong>0.753</strong></td><td><strong>0.622</strong></td><td><strong>0.789</strong></td><td><strong>0.679</strong></td></tr>
+              <tr><td>Gemini 2.5 pro<sub>[GGVL]</sub></td><td>0.625</td><td>0.728</td><td>0.584</td><td>0.767</td><td>0.649</td></tr>
+              <tr><td>Gemini 2.5 pro<sub>[GTA]</sub></td><td>0.631</td><td>0.739</td><td>0.608</td><td>0.787</td><td>0.665</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 5.</strong> Ablation study on GazeFollow and GazeHOI comparing GGVL and the
+          proposed GTA across different public and private VLM backbones. Results are reported under
+          identical settings to show the effect of reasoning across model scales and architectures.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="5">
+        <h4 class="table-slide-title">Uncertainty Threshold Ablation</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead><tr><th>Threshold</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>42.64</td><td>71.25</td><td>49.23</td></tr>
+              <tr><td>15</td><td>47.85</td><td><u>71.77</u></td><td>54.33</td></tr>
+              <tr><td>25</td><td><u>48.49</u></td><td><strong>71.83</strong></td><td><u>54.77</u></td></tr>
+              <tr><td>35</td><td>48.47</td><td>71.54</td><td>54.75</td></tr>
+              <tr><td>45</td><td>47.76</td><td>70.85</td><td>53.97</td></tr>
+              <tr><td>55</td><td>47.09</td><td>70.03</td><td>53.09</td></tr>
+              <tr class="row-highlight"><td><strong>Dynamic</strong></td><td><strong>48.80</strong></td><td>71.70</td><td><strong>55.50</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 6.</strong> Uncertainty threshold ablation. We compare fixed thresholds with
+          the dynamic uncertainty threshold used in GTA.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="6">
+        <h4 class="table-slide-title">Visual Prompt Ablation</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead><tr><th>Prompt</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th></tr></thead>
+            <tbody>
+              <tr><td>Head bbox</td><td>28.69</td><td>67.57</td><td>34.36</td></tr>
+              <tr><td>Blue dot</td><td>40.99</td><td>66.90</td><td>47.49</td></tr>
+              <tr><td>Gray scale</td><td>38.39</td><td>69.72</td><td>44.42</td></tr>
+              <tr><td>Blur</td><td>38.98</td><td>67.75</td><td>44.92</td></tr>
+              <tr><td>Red arrow</td><td>48.29</td><td>72.08</td><td>54.45</td></tr>
+              <tr><td>Green arrow</td><td>43.91</td><td>71.98</td><td>50.17</td></tr>
+              <tr><td>Yellow arrow</td><td>48.06</td><td>72.21</td><td>54.25</td></tr>
+              <tr><td>Blue arrow</td><td>48.80</td><td>71.70</td><td>55.50</td></tr>
+              <tr><td>3px blue arrow</td><td>48.41</td><td>72.25</td><td>54.83</td></tr>
+              <tr class="row-highlight"><td><strong>5px blue arrow</strong></td><td><strong>49.29</strong></td><td><u>72.81</u></td><td><strong>55.79</strong></td></tr>
+              <tr><td>6px blue arrow</td><td><u>49.10</u></td><td><strong>72.84</strong></td><td><u>55.40</u></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 7.</strong> Visual prompt ablation. We compare different prompt types, arrow
+          colors, and arrow widths. The color arrows without a stated width use 4px.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="7">
+        <h4 class="table-slide-title">Retrieval-Size Ablation</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead><tr><th>k</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th></tr></thead>
+            <tbody>
+              <tr><td>3</td><td>48.68</td><td><u>72.75</u></td><td>55.02</td></tr>
+              <tr><td>4</td><td>48.56</td><td>72.69</td><td>54.89</td></tr>
+              <tr><td>5</td><td><u>49.21</u></td><td><strong>72.81</strong></td><td><u>55.58</u></td></tr>
+              <tr class="row-highlight"><td><strong>6</strong></td><td><strong>49.29</strong></td><td><strong>72.81</strong></td><td><strong>55.79</strong></td></tr>
+              <tr><td>10</td><td>49.04</td><td>72.27</td><td>55.37</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 8.</strong> Retrieval-size ablation. We vary the number of retrieved examples
+          used during retrieval-based refinement.
+        </p>
+      </div>
+
+      <div class="table-slide" data-index="8">
+        <h4 class="table-slide-title">Vocabulary-Setting Ablation</h4>
+        <div class="lt-table-wrap">
+          <table class="lt-table">
+            <thead><tr><th>Vocabulary</th><th>Acc@1 ↑</th><th>Acc@3 ↑</th><th>MultiAcc@1 ↑</th><th>E5 Acc@1 ↑</th><th>E5 Acc@3 ↑</th></tr></thead>
+            <tbody>
+              <tr><td>Fixed + GGVL</td><td><u>45.75</u></td><td><u>69.78</u></td><td><u>51.48</u></td><td><u>48.43</u></td><td><u>72.40</u></td></tr>
+              <tr class="row-highlight"><td><strong>Fixed + GTA</strong></td><td><strong>49.29</strong></td><td><strong>72.81</strong></td><td><strong>55.79</strong></td><td><strong>51.48</strong></td><td><strong>76.29</strong></td></tr>
+              <tr><td>Open + GGVL</td><td>30.84</td><td>43.75</td><td>35.59</td><td>40.11</td><td>57.28</td></tr>
+              <tr><td>Open + GTA</td><td>40.63</td><td>54.27</td><td>46.07</td><td>47.85</td><td>64.62</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-caption">
+          <strong>Table 9.</strong> Vocabulary-setting ablation. We compare fixed and open-vocabulary
+          evaluation for GGVL and GTA using both exact matching and E5 semantic matching.
+        </p>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn" onclick="moveTable(-1)" aria-label="Previous table">&#8249;</button>
+        <span class="carousel-counter" id="tableCounter">1 / 9</span>
+        <button class="carousel-btn" onclick="moveTable(1)" aria-label="Next table">&#8250;</button>
+      </div>
+
     </div>
   </div>
 </section>
@@ -455,33 +759,45 @@
       <h2 class="title is-3" style="margin-top:8px;">What GTA Can Do</h2>
     </div>
 
-    <div class="qual-grid">
+    <div class="qual-carousel">
 
-      <div class="qual-card">
-        <img src="./static/images/vocab_free-1.png" alt="Vocabulary-free predictions">
-        <p class="qual-title">Vocabulary-Free Flexibility</p>
-        <p class="qual-desc">
-          Without any vocabulary constraints, GTA generates expressive open-ended
-          predictions that adapt naturally to any scene.
-        </p>
+      <div class="qual-slide active" data-index="0">
+        <div class="qual-card">
+          <img src="./static/images/vocab_free-1.png" alt="Vocabulary-free predictions">
+          <p class="qual-title">Vocabulary-Free Flexibility</p>
+          <p class="qual-desc">
+            Without any vocabulary constraints, GTA generates expressive open-ended
+            predictions that adapt naturally to any scene.
+          </p>
+        </div>
       </div>
 
-      <div class="qual-card">
-        <img src="./static/images/wrong1-1.png" alt="Correct when GT is wrong">
-        <p class="qual-title">Correct Even When Labels Are Wrong</p>
-        <p class="qual-desc">
-          Our agent identifies the true gaze target even in cases where ground-truth
-          annotations are inaccurate or ambiguous.
-        </p>
+      <div class="qual-slide" data-index="1">
+        <div class="qual-card">
+          <img src="./static/images/wrong1-1.png" alt="Correct when GT is wrong">
+          <p class="qual-title">Correct Even When Labels Are Wrong</p>
+          <p class="qual-desc">
+            Our agent identifies the true gaze target even in cases where ground-truth
+            annotations are inaccurate or ambiguous.
+          </p>
+        </div>
       </div>
 
-      <div class="qual-card">
-        <img src="./static/images/msem2-1.png" alt="Semantic predictions">
-        <p class="qual-title">Richer Semantic Predictions</p>
-        <p class="qual-desc">
-          GTA produces detailed, context-aware descriptions of attended objects,
-          going beyond single-word category labels.
-        </p>
+      <div class="qual-slide" data-index="2">
+        <div class="qual-card">
+          <img src="./static/images/msem2-1.png" alt="Semantic predictions">
+          <p class="qual-title">Richer Semantic Predictions</p>
+          <p class="qual-desc">
+            GTA produces detailed, context-aware descriptions of attended objects,
+            going beyond single-word category labels.
+          </p>
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn" onclick="moveQual(-1)" aria-label="Previous example">&#8249;</button>
+        <span class="carousel-counter" id="qualCounter">1 / 3</span>
+        <button class="carousel-btn" onclick="moveQual(1)" aria-label="Next example">&#8250;</button>
       </div>
 
     </div>
@@ -538,6 +854,26 @@
       setTimeout(() => { btn.textContent = 'Copy BibTeX'; }, 2000);
     });
   }
+
+  function setupCarousel(slideSelector, counterId) {
+    const slides = document.querySelectorAll(slideSelector);
+    const counter = document.getElementById(counterId);
+    let index = 0;
+    function show(i) {
+      slides.forEach((el, idx) => el.classList.toggle('active', idx === i));
+      if (counter) counter.textContent = (i + 1) + ' / ' + slides.length;
+    }
+    show(0);
+    return (delta) => {
+      index = (index + delta + slides.length) % slides.length;
+      show(index);
+    };
+  }
+
+  const tableAdvance = setupCarousel('.table-slide', 'tableCounter');
+  const qualAdvance = setupCarousel('.qual-slide', 'qualCounter');
+  function moveTable(delta) { tableAdvance(delta); }
+  function moveQual(delta) { qualAdvance(delta); }
 </script>
 
 </body>
