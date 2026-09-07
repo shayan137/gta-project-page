@@ -39,10 +39,16 @@
     .project-boxes {
       display: inline-flex;
       gap: 14px;
-      align-items: flex-start;
+      align-items: center;
+    }
+    .gta-wrap {
+      display: inline-flex;
+      align-items: center;
     }
     .project-box {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       padding: 10px 40px;
       border-radius: 32px;
       border: 2px solid #4a6fa5;
@@ -54,52 +60,49 @@
       color: #c0d0ec;
       background: transparent;
       cursor: pointer;
+      white-space: nowrap;
       transition: background 0.2s, color 0.2s;
     }
     a.project-box:hover {
       background: rgba(74,111,165,0.3);
       color: #fff;
     }
-    details.project-box {
-      position: relative;
-      padding: 0;
-      border: none;
-      background: none;
-    }
-    details.project-box summary {
-      list-style: none;
-      padding: 10px 40px;
-      border-radius: 32px;
-      border: 2px solid #4a6fa5;
+    .gta-label {
       background: #4a6fa5;
       color: #fff;
-      cursor: pointer;
     }
-    details.project-box summary::-webkit-details-marker { display: none; }
-    details.project-box summary::after { content: ' \25BE'; font-size: 0.7em; margin-left: 4px; }
-    details.project-box[open] summary::after { content: ' \25B4'; }
+    .gta-caret {
+      display: inline-block;
+      font-size: 0.7em;
+      transition: transform 0.25s ease;
+    }
+    .gta-caret.open { transform: rotate(180deg); }
     .accordion-links {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #20263a;
-      border: 1px solid #4a6fa5;
-      border-radius: 14px;
-      padding: 8px;
       display: flex;
-      flex-direction: column;
-      min-width: 160px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-      z-index: 50;
+      align-items: center;
+      gap: 8px;
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-left: 0;
+      transition: max-width 0.35s ease, opacity 0.25s ease, margin-left 0.35s ease;
+    }
+    .accordion-links.open {
+      max-width: 640px;
+      opacity: 1;
+      margin-left: 10px;
     }
     .accordion-links a {
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 8px 18px;
+      border-radius: 24px;
+      border: 2px solid #4a6fa5;
       color: #c0d0ec;
+      background: transparent;
       text-decoration: none;
-      font-size: 0.88rem;
-      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
     }
     .accordion-links a:hover {
       background: rgba(74,111,165,0.3);
@@ -291,7 +294,9 @@
 
     @media (max-width: 768px) {
       .video-grid { grid-template-columns: 1fr; }
-      .project-box, details.project-box summary { padding: 9px 24px; font-size: 0.88rem; }
+      .project-box { padding: 9px 24px; font-size: 0.88rem; }
+      .accordion-links a { padding: 7px 12px; font-size: 0.78rem; }
+      .project-boxes { max-width: 100%; overflow-x: auto; }
       .lt-table { font-size: 0.74rem; }
     }
   </style>
@@ -302,15 +307,15 @@
 <div class="project-switcher">
   <span class="switcher-label">Our Projects</span>
   <div class="project-boxes">
-    <details class="project-box">
-      <summary>GTA</summary>
-      <div class="accordion-links">
+    <div class="gta-wrap">
+      <span class="project-box gta-label" onclick="toggleGtaMenu()">GTA <span class="gta-caret" id="gtaCaret">&#9662;</span></span>
+      <div class="accordion-links" id="gtaLinks">
         <a href="#method">Method</a>
         <a href="#results">Results</a>
         <a href="#examples">Examples</a>
         <a href="#BibTeX">Citation</a>
       </div>
-    </details>
+    </div>
     <a class="project-box" href="https://link.springer.com/chapter/10.1007/978-3-032-31452-9_2" target="_blank" rel="noopener">GGVL</a>
   </div>
 </div>
@@ -409,7 +414,7 @@
 
   </div>
   <div class="container is-max-desktop" style="margin-top:14px;">
-    <p style="text-align:center; font-size:0.82rem; color:#999; font-style:italic; padding:0 20px;">
+    <p style="text-align:center; font-size:1.02rem; line-height:1.8; color:#999; font-style:italic; padding:0 20px;">
       These GTA game videos are included only as a fun visual demonstration of gaze annotation.
       They are not used in the paper, training, evaluation, datasets, or reported results.
     </p>
@@ -463,15 +468,9 @@
       <h2 class="title is-3" style="margin-top:8px;">Architecture Overview</h2>
     </div>
 
-    <figure style="margin-bottom:20px;">
+    <figure style="margin-bottom:30px;">
       <img src="./static/images/architecture-1.png" alt="GTA Architecture" class="arch-image">
     </figure>
-    <p class="result-caption" style="margin-bottom:30px;">
-      <strong>Figure 1.</strong> GTA pipeline: a head detector localises people → Gaze LLE estimates gaze direction
-      → the gaze is rendered as a visual arrow prompt → a frozen VLM identifies the attended object →
-      an uncertainty score triggers RAG-based retrieval when confidence is low →
-      a grounding module spatially localises the final prediction.
-    </p>
 
     <div class="content has-text-justified" style="font-size:1.0rem; line-height:1.78; max-width:780px; margin:0 auto;">
       <p>
@@ -504,7 +503,7 @@
     <div class="table-carousel">
 
       <div class="table-slide active" data-index="0">
-        <h4 class="table-slide-title">GazeFollow — Post-Camera-Ready Evaluation</h4>
+        <h4 class="table-slide-title">GazeFollow: Post-Camera-Ready Evaluation</h4>
         <div class="lt-table-wrap">
           <table class="lt-table">
             <thead>
@@ -518,15 +517,15 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 1.</strong> GazeFollow. Params denotes the number of learnable parameters.
+          <strong>Table 1.</strong> Params denotes the number of learnable parameters.
           This evaluation was carried out after the ECCV camera-ready deadline: we found that giving
-          the model only the <em>labels</em> of retrieved examples — not the retrieved images themselves —
-          gives better results.
+          the model only the <em>labels</em> of retrieved examples, rather than the retrieved images
+          themselves, gives better results.
         </p>
       </div>
 
       <div class="table-slide" data-index="1">
-        <h4 class="table-slide-title">GazeHOI — Post-Camera-Ready Evaluation</h4>
+        <h4 class="table-slide-title">GazeHOI: Post-Camera-Ready Evaluation</h4>
         <div class="lt-table-wrap">
           <table class="lt-table">
             <thead>
@@ -541,15 +540,15 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 2.</strong> GazeHOI. The † symbol indicates the previous state-of-the-art
+          <strong>Table 2.</strong> The † symbol indicates the previous state-of-the-art
           training-free result. This evaluation was carried out after the ECCV camera-ready deadline:
-          we found that giving the model only the <em>labels</em> of retrieved examples — not the
-          retrieved images themselves — gives better results.
+          we found that giving the model only the <em>labels</em> of retrieved examples, rather than
+          the retrieved images themselves, gives better results.
         </p>
       </div>
 
       <div class="table-slide" data-index="2">
-        <h4 class="table-slide-title">GazeFollow — Camera-Ready Result</h4>
+        <h4 class="table-slide-title">GazeFollow: Camera-Ready Result</h4>
         <div class="lt-table-wrap">
           <table class="lt-table">
             <thead>
@@ -563,12 +562,12 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 3.</strong> GazeFollow. Params denotes the number of learnable parameters.
+          <strong>Table 3.</strong> Params denotes the number of learnable parameters.
         </p>
       </div>
 
       <div class="table-slide" data-index="3">
-        <h4 class="table-slide-title">GazeHOI — Camera-Ready Result</h4>
+        <h4 class="table-slide-title">GazeHOI: Camera-Ready Result</h4>
         <div class="lt-table-wrap">
           <table class="lt-table">
             <thead>
@@ -583,7 +582,7 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 4.</strong> GazeHOI. The † symbol indicates the previous state-of-the-art
+          <strong>Table 4.</strong> The † symbol indicates the previous state-of-the-art
           training-free result.
         </p>
       </div>
@@ -623,9 +622,8 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 5.</strong> Ablation study on GazeFollow and GazeHOI comparing GGVL and the
-          proposed GTA across different public and private VLM backbones. Results are reported under
-          identical settings to show the effect of reasoning across model scales and architectures.
+          <strong>Table 5.</strong> Results are reported under identical settings to show the effect
+          of reasoning across model scales and architectures.
         </p>
       </div>
 
@@ -646,8 +644,8 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 6.</strong> Uncertainty threshold ablation. We compare fixed thresholds with
-          the dynamic uncertainty threshold used in GTA.
+          <strong>Table 6.</strong> We compare fixed thresholds with the dynamic uncertainty threshold
+          used in GTA.
         </p>
       </div>
 
@@ -672,8 +670,8 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 7.</strong> Visual prompt ablation. We compare different prompt types, arrow
-          colors, and arrow widths. The color arrows without a stated width use 4px.
+          <strong>Table 7.</strong> We compare different prompt types, arrow colors, and arrow widths.
+          The color arrows without a stated width use 4px.
         </p>
       </div>
 
@@ -692,8 +690,8 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 8.</strong> Retrieval-size ablation. We vary the number of retrieved examples
-          used during retrieval-based refinement.
+          <strong>Table 8.</strong> We vary the number of retrieved examples used during
+          retrieval-based refinement.
         </p>
       </div>
 
@@ -711,8 +709,8 @@
           </table>
         </div>
         <p class="result-caption">
-          <strong>Table 9.</strong> Vocabulary-setting ablation. We compare fixed and open-vocabulary
-          evaluation for GGVL and GTA using both exact matching and E5 semantic matching.
+          <strong>Table 9.</strong> We compare fixed and open-vocabulary evaluation for GGVL and GTA
+          using both exact matching and E5 semantic matching.
         </p>
       </div>
 
@@ -733,7 +731,6 @@
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:28px;">
       <span class="section-tag">Open Vocabulary</span>
-      <h2 class="title is-3" style="margin-top:8px;">Beyond Predefined Labels</h2>
       <p style="color:#555; max-width:660px; margin:10px auto 0; font-size:0.97rem;">
         Unlike prior methods constrained to fixed object vocabularies, GTA can describe
         attended objects without vocabulary constraints.
@@ -874,6 +871,11 @@
   const qualAdvance = setupCarousel('.qual-slide', 'qualCounter');
   function moveTable(delta) { tableAdvance(delta); }
   function moveQual(delta) { qualAdvance(delta); }
+
+  function toggleGtaMenu() {
+    document.getElementById('gtaLinks').classList.toggle('open');
+    document.getElementById('gtaCaret').classList.toggle('open');
+  }
 </script>
 
 </body>
