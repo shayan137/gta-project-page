@@ -14,366 +14,249 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" type="image/png" href="./static/images/favicon.png">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
 
   <style>
-    :root {
-      --ink: #172033;
-      --muted: #667085;
-      --accent: #356fa8;
-      --accent-soft: #eef4fb;
-      --line: #e4e9f0;
-      --surface: #f8fafc;
-    }
-
-    html { scroll-behavior: smooth; }
-    body { color: var(--ink); }
-
-    /* ── Compact navigation ── */
-    .topbar {
+    /* ── Project Switcher ── */
+    .project-switcher {
+      background: #1a1a2e;
+      padding: 14px 0;
+      text-align: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
     }
-
-    .topbar-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      min-height: 58px;
-      padding: 0 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+    .project-switcher .switcher-label {
+      color: #aaa;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
     }
-
-    .brand {
+    .project-tabs {
+      display: inline-flex;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 2px solid #4a6fa5;
+    }
+    .project-tabs a {
+      display: inline-block;
+      padding: 10px 40px;
       font-family: 'Google Sans', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .top-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 0.88rem;
-    }
-
-    .top-links a {
-      color: #4b5565;
-      text-decoration: none;
-    }
-
-    .top-links a:hover { color: var(--accent); }
-
-    .project-link {
-      padding-left: 18px;
-      border-left: 1px solid var(--line);
+      font-size: 0.95rem;
       font-weight: 600;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .project-tabs a.active {
+      background: #4a6fa5;
+      color: #fff;
+      cursor: default;
+    }
+    .project-tabs a:not(.active) {
+      background: transparent;
+      color: #c0d0ec;
+    }
+    .project-tabs a:not(.active):hover {
+      background: rgba(74,111,165,0.3);
+      color: #fff;
+    }
+    .project-tabs .tab-divider {
+      width: 2px;
+      background: #4a6fa5;
     }
 
     /* ── Hero ── */
-    .hero-body { padding-top: 4rem; padding-bottom: 2.6rem; }
-    .publication-title {
-      font-family: 'Google Sans', sans-serif;
-      letter-spacing: -0.025em;
-      line-height: 1.12;
-    }
-
+    .publication-title { font-family: 'Google Sans', sans-serif; }
+    .corresponding-star { color: #e74c3c; font-size: 0.8em; vertical-align: super; }
     .venue-badge {
       display: inline-block;
-      background: var(--accent-soft);
-      color: var(--accent);
-      border: 1px solid #d6e4f3;
-      border-radius: 999px;
-      padding: 5px 14px;
-      font-size: 0.78rem;
+      background: #2a6db5;
+      color: #fff;
+      border-radius: 6px;
+      padding: 3px 16px;
+      font-size: 0.9rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
+      margin-top: 8px;
+      letter-spacing: 0.06em;
     }
 
-    .hero-summary {
-      max-width: 780px;
-      margin: 26px auto 0;
-      font-size: 1.08rem;
-      line-height: 1.72;
-      color: #465365;
-    }
-
-    .publication-links { margin-top: 24px; }
-    .publication-links .button { margin: 4px; }
-
-    /* ── Key message ── */
-    .overview-box {
-      max-width: 900px;
-      margin: 0 auto 42px;
-      padding: 26px 28px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fff;
-    }
-
-    .overview-label {
-      font-size: 0.73rem;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-    }
-
-    .overview-text {
-      font-size: 1.02rem;
-      line-height: 1.68;
-      color: #344054;
-    }
-
-    .metric-grid {
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .metric-card {
-      padding: 20px 16px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #fff;
-      text-align: center;
-    }
-
-    .metric-value {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: #214f7f;
-      line-height: 1.15;
-    }
-
-    .metric-label {
-      margin-top: 7px;
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-
-    /* ── Sections ── */
-    .section-soft { background: var(--surface); }
-    .section-divider { height: 1px; background: var(--line); }
-
+    /* ── Section headers ── */
     .section-tag {
       display: inline-block;
       font-family: 'Google Sans', sans-serif;
-      font-size: 0.71rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      letter-spacing: 0.13em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 9px;
+      color: #4a6fa5;
+      background: #e8f0fb;
+      border-radius: 20px;
+      padding: 3px 14px;
+      margin-bottom: 10px;
     }
 
-    .section-title { margin-top: 0 !important; }
-
-    /* ── Method pipeline ── */
-    .simple-pipeline {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-      align-items: center;
-      margin: 4px auto 30px;
-      max-width: 900px;
-    }
-
-    .pipe-step {
-      min-height: 82px;
-      padding: 14px 10px;
-      border-radius: 10px;
-      background: var(--accent-soft);
-      border: 1px solid #d8e5f2;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.86rem;
-      font-weight: 600;
-      color: #274c71;
-      line-height: 1.35;
-    }
-
-    .arch-image, .result-img {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      box-shadow: 0 4px 16px rgba(16,24,40,0.05);
-    }
-
-    .result-caption {
-      font-size: 0.86rem;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 10px;
-      line-height: 1.55;
-    }
-
-    /* ── Qualitative ── */
-    .qual-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      align-items: start;
-    }
-
-    .qual-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
-    }
-
-    .qual-card img {
-      width: 100%;
-      border-radius: 8px;
-      display: block;
-    }
-
-    .qual-title {
-      font-family: 'Google Sans', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: #24364f;
-      margin: 13px 6px 5px;
-    }
-
-    .qual-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
-      margin: 0 6px 6px;
-    }
-
-    /* ── Bonus videos ── */
+    /* ── Videos ── */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 18px;
+    }
+    .video-card { border-radius: 10px; overflow: hidden; background: #000; }
+    .video-card video { width: 100%; display: block; }
+    .video-caption {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #666;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* ── Results images ── */
+    .result-img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #d0dff5;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    }
+    .result-caption {
+      font-size: 0.88rem;
+      color: #555;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* ── Qualitative grid ── */
+    .qual-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
       align-items: start;
     }
-
-    .video-card {
+    .qual-card { text-align: center; }
+    .qual-card img {
+      width: 100%;
       border-radius: 10px;
-      overflow: hidden;
-      background: #000;
-      border: 1px solid var(--line);
+      border: 1px solid #d0dff5;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    }
+    .qual-card .qual-title {
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #1a3055;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+    .qual-card .qual-desc {
+      font-size: 0.8rem;
+      color: #666;
+      font-style: italic;
     }
 
-    .video-card video { width: 100%; display: block; }
+    /* ── Architecture ── */
+    .arch-image {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #d0dff5;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
 
     /* ── BibTeX ── */
     #BibTeX pre {
-      background: #18202d;
-      color: #d7e6d7;
+      background: #1a1a2e;
+      color: #a8d8a8;
       border-radius: 10px;
-      padding: 22px 24px;
-      font-size: 0.86rem;
-      line-height: 1.65;
+      padding: 22px 26px;
+      font-size: 0.88rem;
+      line-height: 1.7;
       overflow-x: auto;
     }
-
     .copy-btn { font-size: 0.82rem; margin-top: 10px; }
 
-    footer.footer { padding: 2rem 1.5rem; background: #fff; border-top: 1px solid var(--line); }
-
-    @media (max-width: 900px) {
-      .simple-pipeline { grid-template-columns: repeat(3, 1fr); }
+    /* ── Divider ── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #d0dff5, transparent);
+      margin: 0;
     }
 
     @media (max-width: 768px) {
-      .topbar-inner { min-height: 52px; }
-      .top-links a:not(.project-link) { display: none; }
-      .metric-grid, .qual-grid, .video-grid { grid-template-columns: 1fr; }
-      .simple-pipeline { grid-template-columns: repeat(2, 1fr); }
-      .hero-body { padding-top: 3rem; }
-      .publication-title { font-size: 2rem !important; }
-      .overview-box { padding: 22px 20px; }
+      .video-grid, .qual-grid { grid-template-columns: 1fr; }
+      .project-tabs a { padding: 9px 24px; font-size: 0.88rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══ COMPACT NAVIGATION ════════════════════════════════════ -->
-<nav class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="#top">GTA</a>
-    <div class="top-links">
-      <a href="#method">Method</a>
-      <a href="#results">Results</a>
-      <a href="#examples">Examples</a>
-      <a href="#BibTeX">Citation</a>
-      <a class="project-link" href="https://link.springer.com/chapter/10.1007/978-3-032-31452-9_2" target="_blank" rel="noopener">GGVL</a>
-    </div>
+<!-- ══ PROJECT SWITCHER ════════════════════════════════════ -->
+<div class="project-switcher">
+  <span class="switcher-label">Our Projects</span>
+  <div class="project-tabs">
+    <a class="active" href="#">GTA</a>
+    <div class="tab-divider"></div>
+    <a href="https://link.springer.com/chapter/10.1007/978-3-032-31452-9_2" target="_blank" rel="noopener">GGVL</a>
   </div>
-</nav>
+</div>
 
-<!-- ══ HERO ═══════════════════════════════════════════════════ -->
-<section class="hero" id="top">
+
+<!-- ══ HERO ═══════════════════════════════════════════════ -->
+<section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
 
-          <span class="venue-badge">ECCV 2026</span>
+          <div style="margin-bottom:14px;">
+            <span class="venue-badge">ECCV 2026</span>
+          </div>
 
           <h1 class="title is-2 publication-title">
             From Gaze to Meaning: A Training-Free<br>
             AI Agent for Unified Grounding and Explanation
           </h1>
 
-          <div class="is-size-5 publication-authors" style="margin-top:20px; line-height:2.05;">
-            <span class="author-block"><a href="mailto:s.nasiriboukani@surrey.ac.uk">Shayan Nasiriboukani</a><sup>1</sup>,&nbsp;</span>
-            <span class="author-block"><a href="mailto:sara.atito@surrey.ac.uk">Sara Atito</a><sup>1,2*</sup>,&nbsp;</span>
-            <span class="author-block"><a href="mailto:monezamipoor@gmail.com">Mohammad Nezamipour</a><sup>1</sup>,&nbsp;</span>
-            <span class="author-block"><a href="mailto:muhammad.awais@surrey.ac.uk">Muhammad Awais</a><sup>1,2*</sup></span>
+          <div class="is-size-5 publication-authors" style="margin-top:18px; line-height:2.2;">
+            <span class="author-block">
+              <a href="mailto:s.nasiriboukani@surrey.ac.uk">Shayan Nasiriboukani</a><sup>1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="mailto:sara.atito@surrey.ac.uk">Sara Atito</a><sup>1,2*</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="mailto:monezamipoor@gmail.com">Mohammad Nezamipour</a><sup>1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="mailto:muhammad.awais@surrey.ac.uk">Muhammad Awais</a><sup>1,2*</sup>
+            </span>
           </div>
 
-          <div class="is-size-6" style="margin-top:8px; line-height:1.75; color:#5f6876;">
+          <div class="is-size-6" style="margin-top:10px; line-height:1.9; color:#444;">
             <div><sup>1</sup>Centre for Vision, Speech and Signal Processing, University of Surrey, UK</div>
             <div><sup>2</sup>Institute for People-Centered AI, University of Surrey, UK</div>
-            <div style="color:#9299a5; margin-top:3px;"><sup>*</sup> Corresponding authors</div>
+            <div style="color:#888; margin-top:4px;"><sup>*</sup> Corresponding authors</div>
           </div>
 
-          <p class="hero-summary">
-            GTA is a fully <strong>training-free gaze agent</strong> that predicts what a person is looking at,
-            uses retrieval when the prediction is uncertain, and grounds the final target in the image.
-          </p>
-
-          <div class="publication-links">
-            <span class="link-block">
-              <a href="#" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="ai ai-arxiv"></i></span>
-                <span>arXiv</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://github.com/shayan137/Gaze-Target-Agent" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fab fa-github"></i></span>
-                <span>Code</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://eccv.ecva.net/virtual/2026/poster/5517" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-light">
-                <span class="icon"><i class="fas fa-landmark"></i></span>
-                <span>ECCV</span>
-              </a>
-            </span>
+          <div class="column has-text-centered" style="margin-top:20px;">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/shayan137/Gaze-Target-Agent" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
           </div>
 
         </div>
@@ -382,47 +265,55 @@
   </div>
 </section>
 
-<!-- ══ TLDR + MAIN NUMBERS ═══════════════════════════════════ -->
-<section class="section" style="padding-top:8px; padding-bottom:54px;">
+
+<!-- ══ VIDEOS ══════════════════════════════════════════════ -->
+<section class="section" style="padding-top:10px; padding-bottom:40px;">
   <div class="container is-max-desktop">
-    <div class="overview-box">
-      <div class="overview-label">In one sentence</div>
-      <div class="overview-text">
-        GTA combines gaze estimation, visual prompting, a frozen vision-language model, uncertainty-aware retrieval,
-        and spatial grounding in one pipeline — <strong>without updating any model parameters</strong>.
+
+    <!-- Row 1: portrait video centred -->
+    <div style="display:flex; justify-content:center; margin-bottom:18px;">
+      <div class="video-card" style="width:40%;">
+        <video autoplay muted loop playsinline controls style="width:100%; display:block;">
+          <source src="./static/videos/STA_san_anderias_gaze.webm" type="video/webm">
+          <source src="./static/videos/STA_san_anderias_gaze.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
 
-    <div class="metric-grid">
-      <div class="metric-card">
-        <div class="metric-value">0</div>
-        <div class="metric-label">Learnable parameters</div>
+    <!-- Row 2: two landscape videos side by side -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+      <div class="video-card">
+        <video autoplay muted loop playsinline controls style="width:100%; display:block;">
+          <source src="./static/videos/GTA_V_gaze.webm" type="video/webm">
+          <source src="./static/videos/GTA_V_gaze.mp4" type="video/mp4">
+        </video>
       </div>
-      <div class="metric-card">
-        <div class="metric-value">GazeFollow</div>
-        <div class="metric-label">State-of-the-art gaze-target prediction</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">GazeHOI</div>
-        <div class="metric-label">Recognition + spatial grounding</div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline controls style="width:100%; display:block;">
+          <source src="./static/videos/GTA_IV_gaze.webm" type="video/webm">
+          <source src="./static/videos/GTA_IV_gaze.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
+
+  </div>
+  <div class="container is-max-desktop" style="margin-top:14px;">
+    <p style="text-align:center; font-size:0.82rem; color:#999; font-style:italic; padding:0 20px;">
+      These GTA game videos are included only as a fun visual demonstration of gaze annotation.
+      They are not used in the paper, training, evaluation, datasets, or reported results.
+    </p>
   </div>
 </section>
 
 <div class="section-divider"></div>
 
-<!-- ══ ABSTRACT ═══════════════════════════════════════════════ -->
-<section class="section section-soft" style="padding-top:54px; padding-bottom:54px;">
+<!-- ══ ABSTRACT ═══════════════════════════════════════════ -->
+<section class="section" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
-    <div class="columns is-centered">
+    <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <div class="has-text-centered" style="margin-bottom:24px;">
-          <span class="section-tag">Overview</span>
-          <h2 class="title is-3 section-title">Abstract</h2>
-        </div>
-
-        <div class="content has-text-justified" style="font-size:1.01rem; line-height:1.82;">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified" style="font-size:1.02rem; line-height:1.8;">
           <p>
             Understanding human attention is fundamental for scene interpretation, yet existing
             approaches often rely on heavily trained models that lack interpretability. Prior
@@ -433,17 +324,17 @@
             To the best of our knowledge, this work introduces the first training-free
             <strong>G</strong>aze <strong>T</strong>arget <strong>A</strong>gent (GTA)
             for gaze-guided reasoning across tasks such as gaze target prediction, attention
-            localization, and object identification. This is achieved by leveraging pretrained
-            vision-language models, augmenting them with visually guided prompts, and employing
-            a memory-based retrieval strategy for high-uncertainty samples to improve performance
-            without additional training.
+            localization, and object identification.
+            This is achieved by leveraging pretrained vision language models, augmenting them
+            with visually guided prompts, and employing a memory-based retrieval strategy for
+            high-uncertainty samples to improve performance without additional training.
           </p>
           <p>
             We evaluate our approach using both quantitative metrics and qualitative results.
-            Quantitatively, our method achieves state-of-the-art performance on the GazeFollow
-            and GazeHOI benchmarks. Qualitatively, our agent provides detailed semantic predictions,
-            predicts the correct targets even when ground-truth labels are wrong, and remains
-            flexible without vocabulary constraints.
+            Quantitatively, our method achieves state of the art performance on the GazeFollow
+            and GazeHOI benchmarks. Qualitatively, our agent provides detailed semantic
+            predictions, predicts the correct targets even when ground truth labels are wrong,
+            and remains flexible without vocabulary constraints.
           </p>
         </div>
       </div>
@@ -453,45 +344,34 @@
 
 <div class="section-divider"></div>
 
-<!-- ══ METHOD ═════════════════════════════════════════════════ -->
-<section class="section" id="method" style="padding-top:54px; padding-bottom:54px;">
+<!-- ══ METHOD (BRIEF) ═════════════════════════════════════ -->
+<section class="section" style="padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:28px;">
       <span class="section-tag">Method</span>
-      <h2 class="title is-3 section-title">How GTA Works</h2>
-      <p style="color:#667085; max-width:680px; margin:10px auto 0; line-height:1.6;">
-        The full system is training-free and uses pretrained components only.
-      </p>
+      <h2 class="title is-3" style="margin-top:8px;">Architecture Overview</h2>
     </div>
 
-    <div class="simple-pipeline">
-      <div class="pipe-step">1. Detect<br>the person</div>
-      <div class="pipe-step">2. Estimate<br>gaze</div>
-      <div class="pipe-step">3. Draw a<br>visual prompt</div>
-      <div class="pipe-step">4. Predict with<br>a frozen VLM</div>
-      <div class="pipe-step">5. Retrieve when<br>uncertain</div>
-      <div class="pipe-step">6. Ground the<br>final target</div>
-    </div>
-
-    <figure style="margin-bottom:18px;">
-      <img src="./static/images/architecture-1.png" alt="GTA Architecture" class="arch-image" loading="lazy">
+    <figure style="margin-bottom:20px;">
+      <img src="./static/images/architecture-1.png" alt="GTA Architecture" class="arch-image">
     </figure>
-    <p class="result-caption" style="margin-bottom:28px;">
+    <p class="result-caption" style="margin-bottom:30px;">
       <strong>Figure 1.</strong> GTA pipeline: a head detector localises people → Gaze LLE estimates gaze direction
       → the gaze is rendered as a visual arrow prompt → a frozen VLM identifies the attended object →
       an uncertainty score triggers RAG-based retrieval when confidence is low →
       a grounding module spatially localises the final prediction.
     </p>
 
-    <div class="content has-text-justified" style="font-size:1rem; line-height:1.78; max-width:780px; margin:0 auto;">
+    <div class="content has-text-justified" style="font-size:1.0rem; line-height:1.78; max-width:780px; margin:0 auto;">
       <p>
         GTA is a fully <strong>training-free</strong> agent that chains three pretrained components:
         <strong>(1)</strong> a gaze estimator that converts each person's line of sight into a visual arrow overlay,
         <strong>(2)</strong> a vision-language model that reads these overlays to name the attended object,
         and <strong>(3)</strong> an uncertainty-aware <strong>RAG</strong> module that retrieves similar
         training examples from memory whenever the VLM is unsure, sharpening predictions without
-        updating any parameters. A dedicated grounding stage then localises the predicted object in
-        the image using spatial overlap with the predicted gaze heatmap.
+        updating any parameters.
+        A dedicated grounding stage then localises the predicted object in the image using spatial
+        overlap with the predicted gaze heatmap.
       </p>
     </div>
   </div>
@@ -499,21 +379,22 @@
 
 <div class="section-divider"></div>
 
-<!-- ══ RESULTS ════════════════════════════════════════════════ -->
-<section class="section section-soft" id="results" style="padding-top:54px; padding-bottom:54px;">
+<!-- ══ QUANTITATIVE RESULTS ═══════════════════════════════ -->
+<section class="section" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
-    <div class="has-text-centered" style="margin-bottom:32px;">
+    <div class="has-text-centered" style="margin-bottom:30px;">
       <span class="section-tag">Experiments</span>
-      <h2 class="title is-3 section-title">State-of-the-Art Comparison</h2>
-      <p style="color:#667085; max-width:660px; margin:10px auto 0; line-height:1.6;">
+      <h2 class="title is-3" style="margin-top:8px;">State-of-the-Art Comparison</h2>
+      <p style="color:#555; max-width:640px; margin:10px auto 0; font-size:0.97rem;">
         GTA outperforms prior method on both benchmarks with <strong>zero learnable parameters</strong>.
       </p>
     </div>
 
-    <div style="margin-bottom:44px;">
+    <!-- GazeFollow -->
+    <div style="margin-bottom:42px;">
       <h3 class="title is-4 has-text-centered" style="margin-bottom:16px;">GazeFollow Benchmark</h3>
       <figure>
-        <img src="./static/images/GazeFollow_results.png" alt="GazeFollow results" class="result-img" loading="lazy">
+        <img src="./static/images/GazeFollow_results.png" alt="GazeFollow results" class="result-img">
       </figure>
       <p class="result-caption">
         <strong>Table 1.</strong> GTA achieves the best Acc@1, Acc@3, and MultiAcc@1 on GazeFollow
@@ -521,10 +402,11 @@
       </p>
     </div>
 
+    <!-- GazeHOI -->
     <div>
       <h3 class="title is-4 has-text-centered" style="margin-bottom:16px;">GazeHOI Benchmark</h3>
       <figure>
-        <img src="./static/images/GazeHOI_results.png" alt="GazeHOI results" class="result-img" loading="lazy">
+        <img src="./static/images/GazeHOI_results.png" alt="GazeHOI results" class="result-img">
       </figure>
       <p class="result-caption">
         <strong>Table 2.</strong> GTA achieves the highest Acc@1, Acc@3, AP@50, and mIoU on GazeHOI.
@@ -537,20 +419,19 @@
 
 <div class="section-divider"></div>
 
-<!-- ══ OPEN VOCABULARY ═══════════════════════════════════════ -->
-<section class="section" style="padding-top:54px; padding-bottom:54px;">
+<!-- ══ OPEN VOCABULARY ════════════════════════════════════ -->
+<section class="section" style="padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:28px;">
       <span class="section-tag">Open Vocabulary</span>
-      <h2 class="title is-3 section-title">Beyond Predefined Labels</h2>
-      <p style="color:#667085; max-width:670px; margin:10px auto 0; line-height:1.6;">
+      <h2 class="title is-3" style="margin-top:8px;">Beyond Predefined Labels</h2>
+      <p style="color:#555; max-width:660px; margin:10px auto 0; font-size:0.97rem;">
         Unlike prior methods constrained to fixed object vocabularies, GTA can describe
         attended objects without vocabulary constraints.
       </p>
     </div>
-
     <figure>
-      <img src="./static/images/Open_Vocab_test.png" alt="Open vocabulary results" class="result-img" loading="lazy">
+      <img src="./static/images/Open_Vocab_test.png" alt="Open vocabulary results" class="result-img">
     </figure>
     <p class="result-caption">
       GTA produces semantically rich, vocabulary-free descriptions of gaze targets,
@@ -561,17 +442,18 @@
 
 <div class="section-divider"></div>
 
-<!-- ══ QUALITATIVE RESULTS ═══════════════════════════════════ -->
-<section class="section section-soft" id="examples" style="padding-top:54px; padding-bottom:54px;">
+<!-- ══ QUALITATIVE RESULTS ════════════════════════════════ -->
+<section class="section" style="background:#f7f9fd; padding-top:50px; padding-bottom:50px;">
   <div class="container is-max-desktop">
     <div class="has-text-centered" style="margin-bottom:32px;">
       <span class="section-tag">Qualitative Evaluation</span>
-      <h2 class="title is-3 section-title">What GTA Can Do</h2>
+      <h2 class="title is-3" style="margin-top:8px;">What GTA Can Do</h2>
     </div>
 
     <div class="qual-grid">
+
       <div class="qual-card">
-        <img src="./static/images/vocab_free-1.png" alt="Vocabulary-free predictions" loading="lazy">
+        <img src="./static/images/vocab_free-1.png" alt="Vocabulary-free predictions">
         <p class="qual-title">Vocabulary-Free Flexibility</p>
         <p class="qual-desc">
           Without any vocabulary constraints, GTA generates expressive open-ended
@@ -580,7 +462,7 @@
       </div>
 
       <div class="qual-card">
-        <img src="./static/images/wrong1-1.png" alt="Correct when GT is wrong" loading="lazy">
+        <img src="./static/images/wrong1-1.png" alt="Correct when GT is wrong">
         <p class="qual-title">Correct Even When Labels Are Wrong</p>
         <p class="qual-desc">
           Our agent identifies the true gaze target even in cases where ground-truth
@@ -589,65 +471,28 @@
       </div>
 
       <div class="qual-card">
-        <img src="./static/images/msem2-1.png" alt="Semantic predictions" loading="lazy">
+        <img src="./static/images/msem2-1.png" alt="Semantic predictions">
         <p class="qual-title">Richer Semantic Predictions</p>
         <p class="qual-desc">
           GTA produces detailed, context-aware descriptions of attended objects,
           going beyond single-word category labels.
         </p>
       </div>
+
     </div>
   </div>
 </section>
 
 <div class="section-divider"></div>
 
-<!-- ══ BONUS VIDEOS ═══════════════════════════════════════════ -->
-<section class="section" style="padding-top:54px; padding-bottom:54px;">
-  <div class="container is-max-desktop">
-    <div class="has-text-centered" style="margin-bottom:28px;">
-      <span class="section-tag">Bonus</span>
-      <h2 class="title is-3 section-title">GTA Meets GTA</h2>
-      <p style="color:#667085; max-width:690px; margin:10px auto 0; line-height:1.6;">
-        These GTA game videos are included only as a fun visual demonstration of gaze annotation.
-        They are not used in the paper, training, evaluation, datasets, or reported results.
-      </p>
-    </div>
-
-    <div class="video-grid">
-      <div class="video-card">
-        <video muted loop playsinline controls preload="metadata">
-          <source src="./static/videos/STA_san_anderias_gaze.webm" type="video/webm">
-          <source src="./static/videos/STA_san_anderias_gaze.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <video muted loop playsinline controls preload="metadata">
-          <source src="./static/videos/GTA_V_gaze.webm" type="video/webm">
-          <source src="./static/videos/GTA_V_gaze.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <video muted loop playsinline controls preload="metadata">
-          <source src="./static/videos/GTA_IV_gaze.webm" type="video/webm">
-          <source src="./static/videos/GTA_IV_gaze.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ══ CITATION ═══════════════════════════════════════════════ -->
-<section class="section section-soft" id="BibTeX" style="padding-top:54px; padding-bottom:60px;">
+<!-- ══ CITATION ═══════════════════════════════════════════ -->
+<section class="section" id="BibTeX" style="padding-top:50px; padding-bottom:60px;">
   <div class="container is-max-desktop content">
     <div class="has-text-centered" style="margin-bottom:24px;">
       <span class="section-tag">Citation</span>
-      <h2 class="title is-3 section-title">Cite This Work</h2>
-      <p style="color:#667085;">If you find GTA useful in your research, please cite our paper:</p>
+      <h2 class="title is-3" style="margin-top:8px;">Cite This Work</h2>
+      <p style="color:#555;">If you find GTA useful in your research, please cite our paper:</p>
     </div>
-
     <pre id="bibtex-code"><code>@inproceedings{nasiriboukani2026gta,
   author    = {Nasiriboukani, Shayan and Atito, Sara and
                Nezamipour, Mohammad and Awais, Muhammad},
@@ -656,7 +501,6 @@
   booktitle = {European Conference on Computer Vision (ECCV)},
   year      = {2026},
 }</code></pre>
-
     <div class="has-text-centered">
       <button class="button is-light is-small copy-btn" onclick="copyBibtex()">
         <span class="icon"><i class="fas fa-copy"></i></span>
@@ -666,10 +510,11 @@
   </div>
 </section>
 
-<!-- ══ FOOTER ═════════════════════════════════════════════════ -->
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="container">
-    <div class="content has-text-centered" style="font-size:0.82rem; color:#9299a5;">
+    <div class="content has-text-centered" style="font-size:0.82rem; color:#888;">
       <p>
         Website template adapted from
         <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>
